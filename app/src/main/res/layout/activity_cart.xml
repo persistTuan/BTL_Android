@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+    <data>
+        <variable
+            name="cartViewModel"
+            type="com.tlu.edu.vn.ht63.btl_nhom10.CartViewModel" />
+
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".Activity.CartActivity"
+        android:weightSum="1"
+        android:padding="10dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:paddingVertical="10dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/headerCart">
+            <ImageView
+                android:id="@+id/iconBackCart"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/baseline_arrow_back_24"
+                app:tint="@android:color/holo_red_dark"
+                android:foregroundGravity="center"/>
+            <TextView
+                app:layout_constraintTop_toTopOf="parent"
+                android:id="@+id/txtHeaderCart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Giỏ hàng của bạn"
+                android:textSize="24dp"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toRightOf="@id/iconBackCart"
+                app:layout_constraintRight_toRightOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--        infor no cart-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            app:layout_constraintTop_toBottomOf="@id/headerCart"
+            android:id="@+id/infor_no_product"
+            android:visibility="visible"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/image_no_product"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/receipt_long_24px"
+                app:tint="@color/light_gray"
+                android:layout_gravity="center_vertical"/>
+            <TextView
+                android:layout_marginTop="10dp"
+                android:id="@+id/xt_no_product"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Chưa có sản phẩm nào"
+                android:textSize="24dp"
+                android:textAlignment="center"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/image_no_product"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAddCart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/xt_no_product"
+                android:text="THÊM SẢN PHẨM"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:backgroundTint="#80CC0000"
+                app:cornerRadius="5dp"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/headerCart">
+
+           <androidx.recyclerview.widget.RecyclerView
+               android:id="@+id/rcvProductCart"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="10dp"
+               />
+        </ScrollView>
+
+<!--        layoutTotalPrice-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/layoutTotalPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/txtTotalPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tổng tiền"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+            <TextView
+                android:id="@+id/numberTotalPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24dp"
+                android:fontFamily="sans-serif"
+                android:text="309,900Đ"
+                app:layout_constraintTop_toBottomOf="@id/txtTotalPrice"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:textColor="@android:color/holo_red_light"/>
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="ĐẶT HÀNG"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/numberTotalPrice"
+                app:layout_constraintRight_toRightOf="parent"
+                app:cornerRadius="8dp"
+                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginLeft="10dp"
+                android:onClick="@{}"
+                android:backgroundTint="@android:color/holo_red_light"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

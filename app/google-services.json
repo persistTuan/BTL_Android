@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "634425861069",
+    "project_id": "btn-android-170c2",
+    "storage_bucket": "btn-android-170c2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:634425861069:android:a788e7a9143ab6c8929a84",
+        "android_client_info": {
+          "package_name": "com.tlu.edu.vn.ht63.btl_nhom10"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmqhfKo4s49BWZeTyxQiqF8jbDBS0aAug"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

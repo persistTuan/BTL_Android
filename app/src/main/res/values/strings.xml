@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">btl_nhom10</string>
+    <string name="success">SUCCESS</string>
+    <string name="fail">FAIL</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
