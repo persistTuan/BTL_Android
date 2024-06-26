@@ -65,7 +65,21 @@ public class UserReponsitory {
         return res > 0;
     }
 
+    public void updateUser(User user, OnUserListener callback){
+        int result = userDao.update(user);
+        if(result > 0){
+            callback.onChangeData(true);
+        }
+        else{
+            callback.onChangeData(false);
+        }
+    }
+
     public void clearUserCurrent(){
         MySharedPreferences.getInstance(context).clear();
+    }
+
+    public interface OnUserListener{
+        public void onChangeData(boolean success);
     }
 }

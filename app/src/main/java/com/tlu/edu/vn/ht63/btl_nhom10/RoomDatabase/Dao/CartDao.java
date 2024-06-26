@@ -16,6 +16,8 @@ public interface CartDao {
     void insert(Cart cart);
     @Delete
     void delete(Cart cart);
+    @Query("DELETE FROM carts WHERE userId = :userId")
+    public void deleteAllByUserId(int userId);
     @Update
     void update(Cart cart);
     @Query("SELECT * FROM carts WHERE userId = :userId")

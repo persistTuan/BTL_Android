@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="orderViewModel"
+            type="com.tlu.edu.vn.ht63.btl_nhom10.OrderViewModel" />
+    </data>
+    <androidx.core.widget.NestedScrollView
+        android:fillViewport="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+
+
+            <LinearLayout
+                android:id="@+id/header"
+                android:elevation="8dp"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginVertical="16dp">
+                <ImageView
+                    android:id="@+id/iconBack"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/baseline_arrow_back_24"
+                    app:tint="@android:color/holo_red_light"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Xác nhận đơn hàng"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="8dp"
+                    android:textSize="24sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/inforStore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/header"
+                android:orientation="horizontal"
+                android:outlineAmbientShadowColor="@color/colorPrimaryDark"
+                android:layout_marginVertical="8dp"
+                android:outlineProvider="paddedBounds"
+                android:weightSum="1">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/shopping_bag_24px"
+                    app:tint="@android:color/holo_red_light"/>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Đại học thủy lợi"
+                        android:textStyle="bold"
+                        android:textSize="16sp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ngõ 175 Tây sơn, trung liệt đống đa hà nội"/>
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/inforUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/inforStore"
+                android:orientation="horizontal"
+                android:outlineAmbientShadowColor="@color/colorPrimaryDark"
+                android:layout_marginVertical="8dp"
+                android:outlineProvider="paddedBounds"
+                android:weightSum="1">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/baseline_add_location_24"
+                    app:tint="@android:color/holo_red_light"/>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="UserName"
+                            android:id="@+id/txtUserName"
+                            android:textStyle="bold"
+                            android:textSize="16sp"/>
+                        <TextView
+                            android:id="@+id/txtPhoneNumber"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:text="0987654321"
+                            android:textColor="@android:color/holo_red_light"
+                            android:textStyle="bold"
+                            android:textSize="16sp"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="end">
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Thay đổi"
+                                android:textSize="16sp"
+                                android:textColor="#676161"
+                                android:textStyle="bold"
+                                android:gravity="end"/>
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/baseline_edit_square_24"
+                                app:tint="#676161"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/txtAddressUser"
+                        android:text="Ngõ 157 pháo đài láng láng lượng, số nhà 39a phường láng thượng đống đa hà nội"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:background="#F5F8EE"
+                        android:layout_marginTop="8dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Điều kiện giao hàng miễn phí"
+                            android:textStyle="bold"
+                            android:textSize="16sp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Phạm vi giao hàng trong bán kính 3km"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Đơn hàng từ 300.000đ trở lên"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:id="@+id/divider2"
+                app:layout_constraintTop_toBottomOf="@id/inforUser"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"/>
+
+           <androidx.recyclerview.widget.RecyclerView
+               android:id="@+id/rcvListProduct"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               app:layout_constraintTop_toBottomOf="@id/divider2"/>
+
+            <LinearLayout
+                app:layout_constraintTop_toBottomOf="@id/rcvListProduct"
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:background="#F3E7E7"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="10dp"
+                android:outlineProvider="background">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tổng tiền:"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/txtTotalPriceAllProduct"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:textStyle="bold"
+                    android:text="675,000đ"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/holo_red_light"/>
+
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:id="@+id/layoutTotalPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/layoutThanhToan"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tổng tiền thanh toán"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/txtTotalPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
+                        android:text="309,900Đ"
+                        android:textColor="@android:color/holo_red_light"
+                        android:textSize="24dp" />
+                </LinearLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnNextOrder"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="ĐẶT HÀNG"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/layoutThanhToan"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:cornerRadius="8dp"
+                    android:gravity="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginLeft="10dp"
+                    android:backgroundTint="@android:color/holo_red_light"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <FrameLayout
+                android:id="@+id/fullscreenOverlay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#40000000"
+                android:clickable="true"
+                android:visibility="gone"
+                android:elevation="50dp"
+                android:focusable="true">
+
+                <!-- ConstraintLayout để đặt ProgressBar ở giữa -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <!-- ProgressBar nằm trên cùng -->
+                    <com.google.android.material.progressindicator.CircularProgressIndicator
+                        android:id="@+id/progressBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:elevation="10dp"
+                        app:indicatorColor="#D32F2F"
+                        app:indicatorSize="70dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:trackColor="#303F9F"
+                        android:indeterminate="true"
+                        app:trackThickness="8dp" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </FrameLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</layout>
+
+

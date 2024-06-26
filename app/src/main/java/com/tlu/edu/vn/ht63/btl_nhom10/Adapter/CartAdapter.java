@@ -1,6 +1,7 @@
 package com.tlu.edu.vn.ht63.btl_nhom10.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.tlu.edu.vn.ht63.btl_nhom10.CartViewModel;
 import com.tlu.edu.vn.ht63.btl_nhom10.Model.Cart;
+import com.tlu.edu.vn.ht63.btl_nhom10.Model.CartAndUserWithProducts;
 import com.tlu.edu.vn.ht63.btl_nhom10.Model.Product;
 import com.tlu.edu.vn.ht63.btl_nhom10.Reponsitory.ProductReponsitory;
 import com.tlu.edu.vn.ht63.btl_nhom10.databinding.ItemCartBinding;
@@ -17,19 +19,17 @@ import com.tlu.edu.vn.ht63.btl_nhom10.databinding.ItemCartBinding;
 import java.util.List;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewModel> {
-    private List<Cart> cartList;
-    final private ProductReponsitory productReponsitory;
+    private List<CartAndUserWithProducts> productOnCart;
     final private Context context;
     final private CartViewModel viewModel;
 
-    public CartAdapter(Context context, List<Cart> cartList, CartViewModel viewModel){
+    public CartAdapter(Context context, List<CartAndUserWithProducts> productOnCart, CartViewModel viewModel){
         this.context = context;
         this.viewModel = viewModel;
-        this.cartList = cartList;
-        productReponsitory = new ProductReponsitory(context);
+        this.productOnCart = productOnCart;
     }
-    public void setCarts(List<Cart> carts){
-        cartList = carts;
+    public void setProductOnCart(List<CartAndUserWithProducts> productOnCart) {
+        this.productOnCart = productOnCart;
         notifyDataSetChanged();
     }
 
@@ -45,61 +45,88 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewModel> {
         if(viewModel.totalPrice.getValue() == null){
             viewModel.totalPrice.setValue("0");
         }
-        Cart cart = cartList.get(position);
-        holder.binding.txtQuantity.setText(cart.getQuantity() + "");
-        productReponsitory.getProductById(cart.getProductId(), new ProductReponsitory.GetProductCallback() {
-            @Override
-            public void getProductCallback(Product product) {
-                float totalPrice = Float.parseFloat(viewModel.totalPrice.getValue());
-                totalPrice += product.getProductPrice() * (1 - product.getProductDiscount()) * cart.getQuantity();
-                viewModel.totalPrice.setValue(totalPrice + "");
-                holder.binding.txtProductDescription.setText(product.getProductDescription());
-                holder.binding.txtPrice.setText(product.getProductPrice() + "");
-                holder.binding.iconAdd.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        float newTotal = Float.parseFloat(viewModel.totalPrice.getValue());
-                        cart.setQuantity(cart.getQuantity() + 1);
-                        newTotal += product.getProductPrice() * (1 - product.getProductDiscount());
-                        holder.binding.txtQuantity.setText(cart.getQuantity() + "");
-                        viewModel.totalPrice.setValue(newTotal+"");
-                        viewModel.updateCart(cart);
-                    }
-                });
-                holder.binding.iconRemove.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if(cart.getQuantity() > 1){
-                            float newTotal = Float.parseFloat(viewModel.totalPrice.getValue());
-                            newTotal -= product.getProductPrice() * (1 - product.getProductDiscount());
-                            cart.setQuantity(cart.getQuantity() - 1);
-                            holder.binding.txtQuantity.setText(cart.getQuantity() + "");
-                            viewModel.totalPrice.setValue(newTotal+"");
-                            viewModel.updateCart(cart);
-                        }
-                    }
-                });
 
+        CartAndUserWithProducts cart = productOnCart.get(position);
+        Product product = productOnCart.get(position).getProduct();
+
+        float totalPrice = Float.parseFloat(viewModel.totalPrice.getValue());
+        totalPrice += product.getProductPrice() * (1 - product.getProductDiscount()) * cart.getQuantity();
+        viewModel.totalPrice.setValue(totalPrice + "");
+
+        holder.binding.txtQuantity.setText(cart.getQuantity() + "");
+        holder.binding.txtProductDescription.setText(product.getProductDescription());
+        holder.binding.txtPrice.setText(product.getProductPrice() + "");
+        holder.binding.iconAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cart.setQuantity(cart.getQuantity() + 1);
+                holder.binding.txtQuantity.setText(cart.getQuantity() + "");
+
+                float newTotal = Float.parseFloat(viewModel.totalPrice.getValue());
+                newTotal += product.getProductPrice() * (1 - product.getProductDiscount());
+                viewModel.totalPrice.setValue(newTotal+"");
+
+
+                Cart newCart = new Cart();
+                newCart.setUserId(cart.getUserId());
+                newCart.setQuantity(cart.getQuantity());
+                newCart.setProductId(product.getProductId());
+                newCart.setCartId(cart.getCartId());
+                viewModel.updateCart(newCart);
+            }
+        });
+        holder.binding.iconRemove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(cart.getQuantity() > 1){
+                    cart.setQuantity(cart.getQuantity() - 1);
+                    holder.binding.txtQuantity.setText(cart.getQuantity() + "");
+                    float newTotal = Float.parseFloat(viewModel.totalPrice.getValue());
+                    newTotal -= product.getProductPrice() * (1 - product.getProductDiscount());
+                    viewModel.totalPrice.setValue(newTotal+"");
+
+                    Cart newCart = new Cart();
+                    newCart.setUserId(cart.getUserId());
+                    newCart.setQuantity(cart.getQuantity());
+                    newCart.setProductId(product.getProductId());
+                    newCart.setCartId(cart.getCartId());
+                    viewModel.updateCart(newCart);
+                }
+            }
+        });
+
+        holder.binding.iconDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                productOnCart.remove(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, productOnCart.size());
+                Log.i("totalPrice", calculateTotalPrice()+"");
+                viewModel.totalPrice.setValue(calculateTotalPrice()+"");
+                Cart newCart = new Cart();
+                newCart.setCartId(cart.getCartId());
+                viewModel.deleteCart(newCart);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        if(cartList != null){
-            return cartList.size();
+
+        if(productOnCart != null){
+            return productOnCart.size();
         }else{
             return 0;
         }
     }
 
-    private void calculateTotal(Product product){
-        int total = 0;
-        for(Cart cart : cartList){
-            float newPrice = product.getProductPrice() * (1 - product.getProductDiscount());
-            total += cart.getQuantity() * newPrice;
+    public float calculateTotalPrice(){
+        float totalPrice = 0;
+        for(CartAndUserWithProducts cart : productOnCart){
+            Product product = cart.getProduct();
+            totalPrice += product.getProductPrice() * (1 - product.getProductDiscount()) * cart.getQuantity();
         }
-        viewModel.totalPrice.setValue(total+"");
+        return totalPrice;
     }
 
     public class ViewModel extends RecyclerView.ViewHolder {
@@ -108,9 +135,5 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewModel> {
             super(binding.getRoot());
             this.binding = binding;
         }
-    }
-
-    public interface OnListenerCart{
-        public void updateCart(int productID, int quantity);
     }
 }

@@ -15,7 +15,17 @@ public class User {
     private boolean isAdmin;
     private String createdAt;
 
+    private String address;
+
     public User(){}
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public boolean isAdmin() {
         return isAdmin;

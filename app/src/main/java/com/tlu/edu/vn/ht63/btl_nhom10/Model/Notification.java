@@ -10,7 +10,6 @@ public class Notification {
     private String title;
     private String message;
     private int orderId;
-    private String image;
     private String createdAt;
 
     public Notification(){
@@ -75,11 +74,6 @@ public class Notification {
         this.createdAt = createdAt;
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
 }
+
+

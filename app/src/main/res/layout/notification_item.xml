@@ -18,9 +18,10 @@
             android:id="@+id/image_itemNotification"
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:scaleType="fitStart"
-            android:src="@drawable/ic_launcher_background"
+            android:src="@drawable/list_alt_24px"
+            android:tint="@android:color/holo_red_light"
             android:layout_gravity="top"/>
         <LinearLayout
             android:layout_marginHorizontal="8dp"

@@ -2,6 +2,7 @@ package com.tlu.edu.vn.ht63.btl_nhom10.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -35,13 +36,9 @@ public class AccountActivity extends AppCompatActivity {
                 return (T) new AccountViewModel(getApplicationContext());
             }
         }).get(AccountViewModel.class);
-//        EdgeToEdge.enable(this);
+
         setContentView(binding.getRoot());
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
 
         viewModel.isLogout.observe(this, new Observer<Boolean>() {
             @Override
@@ -51,6 +48,16 @@ public class AccountActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 }
+            }
+        });
+
+
+        binding.inforAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent inten = new Intent(AccountActivity.this, SearchPlaceActivity.class);
+                startActivity(inten);
+                finish();
             }
         });
 

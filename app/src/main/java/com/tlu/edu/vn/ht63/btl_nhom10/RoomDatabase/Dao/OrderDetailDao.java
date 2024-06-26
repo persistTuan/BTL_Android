@@ -16,6 +16,8 @@ import java.util.List;
 public interface OrderDetailDao {
     @Insert
     public Long insert(OrderDetail orderDetail);
+    @Insert
+    public void insertAll(List<OrderDetail> orderDetails);
     @Update
     public int update(OrderDetail orderDetail);
     @Delete

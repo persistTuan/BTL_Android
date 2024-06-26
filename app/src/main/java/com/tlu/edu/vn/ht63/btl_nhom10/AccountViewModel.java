@@ -11,8 +11,8 @@ import com.tlu.edu.vn.ht63.btl_nhom10.Reponsitory.UserReponsitory;
 
 public class AccountViewModel extends ViewModel {
     public MutableLiveData<Boolean> isLogout = new MutableLiveData<>();
+    public MutableLiveData<Boolean> updateSuccess = new MutableLiveData<>();
     private UserReponsitory userReponsitory;
-    public User userCurrent;
 
     public AccountViewModel(Context context){
         userReponsitory = new UserReponsitory(context);
@@ -22,5 +22,20 @@ public class AccountViewModel extends ViewModel {
         userReponsitory.clearUserCurrent();
         isLogout.setValue(true);
     }
+
+    public User getUserCurrent(){
+        return userReponsitory.getUserCurrent();
+    }
+
+    public void update(User user){
+        userReponsitory.updateUser(user, new UserReponsitory.OnUserListener() {
+            @Override
+            public void onChangeData(boolean success) {
+                updateSuccess.setValue(success);
+            }
+        });
+    }
+
+
 
 }

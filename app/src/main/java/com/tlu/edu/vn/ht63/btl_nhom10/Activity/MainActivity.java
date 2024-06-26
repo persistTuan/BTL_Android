@@ -65,22 +65,5 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-
-        bottomNavigationView.setOnItemReselectedListener(new NavigationBarView.OnItemReselectedListener() {
-            @Override
-            public void onNavigationItemReselected(@NonNull MenuItem menuItem) {
-                int id = menuItem.getItemId();
-                if (id == R.id.home) {
-                    homeViewModel.productList.getValue().clear();
-                    homeViewModel.loadProduct();
-                } else if (id == R.id.notifications) {
-                    viewPager2.setCurrentItem(1);
-                } else if (id == R.id.account) {
-                    viewPager2.setCurrentItem(2);
-                } else {
-                    viewPager2.setCurrentItem(0);
-                }
-            }
-        });
     }
 }

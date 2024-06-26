@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "orders")
 public class Order {
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey()
     private int orderId;
     private int userCreatorId;
 

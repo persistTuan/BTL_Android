@@ -24,7 +24,6 @@ public class HomeViewModel extends ViewModel {
     private CartReponsitory cartReponsitory;
     private UserReponsitory userReponsitory;
     private User userCurrent;
-    public MutableLiveData<List<Cart>> cartList = new MutableLiveData<>();
     public MutableLiveData<List<Product>> productList= new MutableLiveData<>();
     public MutableLiveData<Boolean> existCart = new MutableLiveData<>();
     public MutableLiveData<List<Product>> top5Product = new MutableLiveData<>();
@@ -58,13 +57,14 @@ public class HomeViewModel extends ViewModel {
 
     public void addToCart(View view, int idProduct){
 
-        Toast.makeText(view.getContext(), "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
+
         if(cartReponsitory.checkCart(userCurrent.getUserId(), idProduct)){
             existCart.setValue(true);
         }
         else{
             Cart cart = new Cart(userCurrent.getUserId(), idProduct);
             cartReponsitory.insert(cart);
+            Toast.makeText(view.getContext(), "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
             existCart.setValue(false);
         }
     }
