@@ -5,6 +5,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_order">Đơn hàng mới</string>
+    <string name="name_store">Đại học thủy lợi</string>
     <string name="key_api_ggmap">AIzaSyBhK8KmSB_ByD0kN3Aas23jDzGIGXRrFrc</string>
+    <string name="key2_api_ggmap">AIzaSyB0bhtUweXF_GQHWExnif-kngith5HWBsw</string>
     <string name="address_store">175 P. Tây Sơn, Trung Liệt, Đống Đa, Hà Nội 116705, Việt Nam</string>
 </resources>

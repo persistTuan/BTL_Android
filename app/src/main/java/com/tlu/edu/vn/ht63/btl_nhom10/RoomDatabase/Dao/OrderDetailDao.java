@@ -22,9 +22,8 @@ public interface OrderDetailDao {
     public int update(OrderDetail orderDetail);
     @Delete
     public int delete(OrderDetail orderDetail);
-//    @Transaction
-//    @Query("SELECT * FROM orders WHERE orderId = :orderId")
-//    public List<OrderWithProducts> getOrderWithProductsByOrderId(int orderId);
 
+    @Query("SELECT * FROM orderdetail WHERE orderId = :orderId")
+    public List<OrderDetail> getByOrderId(int orderId);
 
 }

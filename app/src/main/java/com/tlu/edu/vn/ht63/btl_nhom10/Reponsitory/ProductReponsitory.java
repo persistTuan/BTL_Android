@@ -50,7 +50,7 @@ public class ProductReponsitory{
 
     public void insert(Product product, ChangeProductCallback callback){
         String keyNode = myRef.push() + "";
-        int keyProduct = keyNode.hashCode();
+        String keyProduct = keyNode.hashCode() + "";
         product.setProductId(keyProduct);
         myRef.child(keyProduct+"").setValue(product)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -78,7 +78,17 @@ public class ProductReponsitory{
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 List<Product> productList = new ArrayList<>();
                 for (DataSnapshot product : snapshot.getChildren()){
-                    productList.add(product.getValue(Product.class));
+                    Product product1 = new Product();
+                    product1.setProductImage(product.child("productImage").getValue(String.class));
+                    product1.setProductName(product.child("productName").getValue(String.class));
+                    product1.setProductPrice(product.child("productPrice").getValue(Float.class));
+                    String id = product.getKey();
+                    product1.setProductId(id);
+                    product1.setProductDescription(product.child("productDescription").getValue(String.class));
+                    product1.setProductDiscount(product.child("productDiscount").getValue(Float.class));
+                    product1.setProductCategory(product.child("productCategory").getValue(String.class));
+                    product1.setNumberOfBuyers(product.child("numberOfBuyers").getValue(Integer.class));
+                    productList.add(product1);
                 }
                 callback.getProductCallback(productList);
             }
@@ -92,12 +102,20 @@ public class ProductReponsitory{
     }
 
 //    @Override
-    public void getProductById(int id, GetProductCallback callback) {
-        myRef.child(String.valueOf(id)).addValueEventListener(new ValueEventListener() {
+    public void getProductById(String id, GetProductCallback callback) {
+        myRef.child(id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Product product = snapshot.getValue(Product.class);
-                callback.getProductCallback(product);
+//                Product product1 = new Product();
+//                product1.setProductImage(snapshot.child("productImage").getValue(String.class));
+//                product1.setProductName(snapshot.child("productName").getValue(String.class));
+//                product1.setProductPrice(snapshot.child("productPrice").getValue(Float.class));
+//                product1.setProductId(String.valueOf(snapshot.child("productId").getValue(Long.class)));
+//                product1.setProductDescription(snapshot.child("productDescription").getValue(String.class));
+//                product1.setProductDiscount(snapshot.child("productDiscount").getValue(Float.class));
+//                product1.setProductCategory(snapshot.child("productCategory").getValue(String.class));
+//                product1.setNumberOfBuyers(snapshot.child("numberOfBuyers").getValue(Integer.class));
+                callback.getProductCallback(snapshot.getValue(Product.class));
             }
 
             @Override
@@ -108,7 +126,7 @@ public class ProductReponsitory{
     }
 
     public void update(Product product, ChangeProductCallback callback){
-        myRef.child(product.getProductId()+"").setValue(product).addOnCompleteListener
+        myRef.child(product.getProductId()).setValue(product).addOnCompleteListener
                 (new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {

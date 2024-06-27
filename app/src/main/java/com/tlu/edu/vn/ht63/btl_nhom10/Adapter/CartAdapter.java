@@ -1,5 +1,6 @@
 package com.tlu.edu.vn.ht63.btl_nhom10.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,7 +42,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewModel> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewModel holder, int position) {
+    public void onBindViewHolder(@NonNull ViewModel holder, @SuppressLint("RecyclerView") int position) {
         if(viewModel.totalPrice.getValue() == null){
             viewModel.totalPrice.setValue("0");
         }
@@ -50,7 +51,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewModel> {
         Product product = productOnCart.get(position).getProduct();
 
         float totalPrice = Float.parseFloat(viewModel.totalPrice.getValue());
-        totalPrice += product.getProductPrice() * (1 - product.getProductDiscount()) * cart.getQuantity();
+        totalPrice += product.getProductPrice() * (1 - product.getProductDiscount()/100) * cart.getQuantity();
+        Log.i("totalPrice", totalPrice+"");
         viewModel.totalPrice.setValue(totalPrice + "");
 
         holder.binding.txtQuantity.setText(cart.getQuantity() + "");

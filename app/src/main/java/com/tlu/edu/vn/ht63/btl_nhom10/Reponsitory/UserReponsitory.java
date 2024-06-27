@@ -17,14 +17,12 @@ public class UserReponsitory {
     private User userCurrent;
 
     public User getUserCurrent() {
-        if(userCurrent == null){
-            String userId = MySharedPreferences.getInstance(context).getString("user_id");
-            if(userId != null){
-                userCurrent = userDao.getUserById(Integer.parseInt(userId));
-            }
-            else{
-                userCurrent = null;
-            }
+        String userId = MySharedPreferences.getInstance(context).getString("user_id");
+        if(userId != null){
+            userCurrent = userDao.getUserById(Integer.parseInt(userId));
+        }
+        else{
+            userCurrent = null;
         }
         return userCurrent;
     }
@@ -81,5 +79,17 @@ public class UserReponsitory {
 
     public interface OnUserListener{
         public void onChangeData(boolean success);
+    }
+    public interface OnGetUserListener{
+        public void onGetUser(User user);
+    }
+    public void getUserByIdAsync(int userId, OnGetUserListener callback){
+        Executors.newSingleThreadExecutor().execute(new Runnable() {
+            @Override
+            public void run() {
+                User result = userDao.getUserById(userId);
+                callback.onGetUser(result);
+            }
+        });
     }
 }

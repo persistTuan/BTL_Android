@@ -11,6 +11,15 @@ public class Notification {
     private String message;
     private int orderId;
     private String createdAt;
+    private boolean isNew;
+
+    public boolean isNew() {
+        return isNew;
+    }
+
+    public void setNew(boolean aNew) {
+        isNew = aNew;
+    }
 
     public Notification(){
 

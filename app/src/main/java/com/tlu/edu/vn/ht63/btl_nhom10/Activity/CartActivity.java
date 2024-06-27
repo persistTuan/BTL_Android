@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -106,11 +107,13 @@ public class CartActivity extends AppCompatActivity {
                     binding.inforNoProduct.setVisibility(View.GONE);
                     binding.rcvProductCart.setVisibility(View.VISIBLE);
                     binding.layoutTotalPrice.setVisibility(View.VISIBLE);
+                    binding.layoutProductCart.setVisibility(View.VISIBLE);
                 }
                 else{
                     binding.inforNoProduct.setVisibility(View.VISIBLE);
                     binding.rcvProductCart.setVisibility(View.GONE);
                     binding.layoutTotalPrice.setVisibility(View.GONE);
+                    binding.layoutProductCart.setVisibility(View.GONE);
                 }
             }
         });
@@ -118,7 +121,7 @@ public class CartActivity extends AppCompatActivity {
         viewModel.mproductOnCart.observe(this, new Observer<List<CartAndUserWithProducts>>() {
             @Override
             public void onChanged(List<CartAndUserWithProducts> cartAndUserWithProducts) {
-                Log.i("sizeCart", cartAndUserWithProducts.size() + "");
+//                Log.i("sizeCart", cartAndUserWithProducts.size() + "");
                 adapter.setProductOnCart(cartAndUserWithProducts);
             }
         });
@@ -128,7 +131,8 @@ public class CartActivity extends AppCompatActivity {
             public void onChanged(String s) {
                 float totalPrice = Float.parseFloat(s);
                 NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
-                binding.numberTotalPrice.setText(numberFormat.format(totalPrice));
+                String res = numberFormat.format(totalPrice);
+                binding.numberTotalPrice.setText(res);
             }
         });
     }

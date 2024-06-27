@@ -19,7 +19,7 @@ public interface OrderDao {
     @Update
     public int update(Order order);
     @Delete
-    int delete(Order order);
+    public int delete(Order order);
 
     @Query("SELECT * FROM orders")
     public List<Order> getAll();

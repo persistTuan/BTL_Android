@@ -53,7 +53,7 @@ public class ProductDao {
 
     public void insert(Product product, ProductReponsitory.ChangeProductCallback callback){
         String keyNode = myRef.push() + "";
-        int keyProduct = keyNode.hashCode();
+        String keyProduct = keyNode.hashCode() + "";
         product.setProductId(keyProduct);
         myRef.child(keyProduct+"").setValue(product)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {

@@ -6,7 +6,7 @@
         <import type="com.tlu.edu.vn.ht63.btl_nhom10.HomeViewModel"/>
         <variable
             name="idProduct"
-            type="Integer" />
+            type="String" />
         <variable
             name="homeViewModel"
             type="HomeViewModel" />

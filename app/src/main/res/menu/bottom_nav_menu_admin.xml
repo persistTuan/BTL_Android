@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/home"
+        android:enabled="true"
+        android:icon="@drawable/home_24px"
+        android:title="Home" />
+    <item
+        android:id="@+id/notifications"
+        android:enabled="true"
+        android:icon="@drawable/notifications_24px"
+        android:title="Notifications" />
+    <item
+        android:id="@+id/saleStatistics"
+        android:enabled="true"
+        android:icon="@drawable/monitoring_24px"
+        android:title="SaleStatistics" />
+
+</menu>

@@ -20,4 +20,8 @@
     <color name="colorToolBarTitle">#09c6df</color>
     <color name="endblue">#0bcce6</color>
     <color name="light_gray">#D3D3D3</color>
+    <color name="success">#4CAF50</color>
+    <color name="error">#F44336</color>
+    <color name="warning">#FF9800</color>
+
 </resources>

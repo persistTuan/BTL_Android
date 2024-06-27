@@ -38,15 +38,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Số lượng:"
+                    android:textColor="@android:color/holo_red_light"
                     android:textSize="12sp"/>
+
                 <TextView
+                    android:id="@+id/txtQuantity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/txtQuantity"
-                    android:text="3"
                     android:layout_marginLeft="15dp"
+                    android:text="3"
                     android:textSize="12sp"
-                    android:textStyle="bold"/>
+                    android:textColor="@android:color/holo_red_light"
+                    android:textStyle="bold" />
                 <TextView
                     android:id="@+id/txtTotalPriceAProduct"
                     android:layout_width="match_parent"

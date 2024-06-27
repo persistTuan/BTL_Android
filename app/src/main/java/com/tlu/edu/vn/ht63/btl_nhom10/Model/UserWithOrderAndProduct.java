@@ -1,17 +1,36 @@
 package com.tlu.edu.vn.ht63.btl_nhom10.Model;
 
-import androidx.room.Embedded;
-import androidx.room.Relation;
+import android.util.Pair;
 
 import java.util.List;
 
 public class UserWithOrderAndProduct {
-//    @Embedded
-//    public User user;
-//    @Relation(
-//            entity = Order.class,
-//            parentColumn = "userid",
-//            entityColumn = "userCreatorId"
-//    )
-//    public List<OrderWithProducts> orders;
+    public User user;
+    public Order order;
+    private List<Pair<Product, Integer> > products;
+
+    public List<Pair<Product, Integer>> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Pair<Product, Integer>> products) {
+        this.products = products;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
 }

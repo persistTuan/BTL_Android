@@ -10,6 +10,7 @@ import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -50,6 +51,7 @@ public class OrderActivity extends AppCompatActivity {
     private OrderAdapter adapter;
     private OrderViewModel orderViewModel;
     private User userCurrent;
+    private static final int REQUEST_CODE = 851;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,10 +83,6 @@ public class OrderActivity extends AppCompatActivity {
 
     }
 
-    private void inintData() {
-
-
-    }
 
     private void observeData() {
         orderViewModel.noAddress.observe(this, new Observer<Boolean>() {
@@ -142,9 +140,17 @@ public class OrderActivity extends AppCompatActivity {
         totalPrice = getIntent().getStringExtra("totalPrice");
         float numberTotalPrice = Float.parseFloat(totalPrice);
         NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
-        binding.txtTotalPrice.setText(numberFormat.format(numberTotalPrice));
-        totalOrder = numberTotalPrice + "";
         binding.txtTotalPriceAllProduct.setText(numberFormat.format(numberTotalPrice));
+
+        if(userCurrent.getDistance() > 3){
+            numberTotalPrice += 10000;
+            orderViewModel.totalPrice.setValue(numberTotalPrice + "");
+        }
+        else{
+            orderViewModel.totalPrice.setValue(numberTotalPrice+"");
+        }
+        totalOrder = numberTotalPrice + "";
+        binding.txtTotalOrder.setText(numberFormat.format(numberTotalPrice));
 
         binding.iconBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,7 +163,7 @@ public class OrderActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 orderViewModel.totalPrice.setValue(totalOrder);
-                orderViewModel.createOrder(productOnCart);
+                orderViewModel.createOrder(productOnCart, userCurrent);
             }
         });
 
@@ -176,9 +182,9 @@ public class OrderActivity extends AppCompatActivity {
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // Xử lý khi người dùng nhấn OK
-                Intent intent = new Intent(OrderActivity.this, AccountActivity.class);
+                Intent intent = new Intent(OrderActivity.this, SearchPlaceActivity.class);
                 dialog.dismiss();
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_CODE);
             }
         });
 
@@ -195,4 +201,19 @@ public class OrderActivity extends AppCompatActivity {
         dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.RED);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
+            String address = data.getStringExtra("address");
+            float distance = data.getFloatExtra("distance", 0);
+            userCurrent.setDistance(distance);
+            userCurrent.setAddress(address);
+            binding.txtAddressUser.setText(address);
+            if(distance > 3){
+                totalOrder = Float.parseFloat(totalOrder) + 10000 + "";
+                binding.txtTotalOrder.setText(totalOrder);
+            }
+        }
+    }
 }

@@ -1,9 +1,11 @@
 package com.tlu.edu.vn.ht63.btl_nhom10.Reponsitory;
 
 import android.content.Context;
+import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -14,8 +16,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.tlu.edu.vn.ht63.btl_nhom10.Model.Notification;
 
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 public class NotificationReponsitory{
     private Context context;
@@ -28,12 +33,21 @@ public class NotificationReponsitory{
     }
     public void getNOtiByRecieverId(int id, OnGetDataNotificationListener callback) {
         ValueEventListener listener = new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 List<Notification> notifications = new ArrayList<>();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                LocalDateTime currentTime = LocalDateTime.now();
+                LocalDateTime fiveDaysAgo = currentTime.minusDays(5);
                 for(DataSnapshot item : snapshot.getChildren()){
-                    if(item.child("recieverId").getValue(Integer.class) == id)
-                        notifications.add(item.getValue(Notification.class));
+                    Notification notification = item.getValue(Notification.class);
+                    if(notification.getReceiverId() == id){
+                        LocalDateTime created_at = LocalDateTime.parse(notification.getCreatedAt(), formatter);
+                        if(created_at.isAfter(fiveDaysAgo) && created_at.isBefore(currentTime.plusDays(1))){
+                            notifications.add(notification);
+                        }
+                    }
                 }
                 callback.onGetData(notifications);
             }
@@ -44,19 +58,25 @@ public class NotificationReponsitory{
             }
         };
 
-        reference.addValueEventListener(listener);
+        reference.addListenerForSingleValueEvent(listener);
     }
 
-    public ChildEventListener getNewNotificationListener(OnGetDataNotificationListener callback){
+    public ChildEventListener getNewNotificationListener(int userId, OnGetDataNotificationListener callback){
         ChildEventListener childEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                callback.onGetNewNotification(snapshot.getValue(Notification.class));
+                Notification notification = snapshot.getValue(Notification.class);
+                assert notification != null;
+                if(notification.getReceiverId() == userId)
+                    callback.onGetNewNotification(snapshot.getValue(Notification.class));
             }
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                callback.onNotificationUpdated(snapshot.getValue(Notification.class));
+                Notification notification = snapshot.getValue(Notification.class);
+                assert notification != null;
+                if(notification.getReceiverId() == userId)
+                    callback.onNotificationUpdated(snapshot.getValue(Notification.class));
             }
 
             @Override
@@ -78,10 +98,17 @@ public class NotificationReponsitory{
         return childEventListener;
     }
 
+    // async
     public void insert(Notification notification) {
-        DatabaseReference newNode = reference.push();
-        notification.setNotificationId(newNode.getKey());
-        newNode.setValue(notification);
+        Executors.newSingleThreadExecutor().execute(new Runnable() {
+            @Override
+            public void run() {
+                DatabaseReference newNode = reference.push();
+                notification.setNotificationId(newNode.getKey());
+                newNode.setValue(notification);
+            }
+        });
+
     }
 
     public void update(Notification notification) {

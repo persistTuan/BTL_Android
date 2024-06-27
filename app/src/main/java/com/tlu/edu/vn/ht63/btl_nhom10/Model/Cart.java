@@ -9,11 +9,11 @@ public class Cart {
     @PrimaryKey(autoGenerate = true)
     private int cartId;
     private int userId;
-    private int productId;
+    private String productId;
     private int quantity;
     public Cart(){};
 
-    public Cart(int userId, int productId) {
+    public Cart(int userId, String productId) {
         this.userId = userId;
         this.productId = productId;
         this.quantity = 1;
@@ -43,11 +43,11 @@ public class Cart {
         this.userId = userId;
     }
 
-    public int getProductId() {
+    public String getProductId() {
         return productId;
     }
 
-    public void setProductId(int productId) {
+    public void setProductId(String productId) {
         this.productId = productId;
     }
 

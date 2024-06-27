@@ -46,6 +46,7 @@ public class DistanceCalculator {
                             if ("OK".equals(element.getStatus()) && element.getDistance() != null && element.getDuration() != null) {
                                 String distance = element.getDistance().getText();
                                 String duration = element.getDuration().getText();
+
                                 callback.onDistanceCalculated(distance, duration);
                                 return;
                             }

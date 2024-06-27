@@ -47,6 +47,7 @@ public class CartViewModel extends ViewModel {
 
 
     public void loadCart(){
+        isHaveCart.setValue(false);
         User userCurrent = userReponsitory.getUserCurrent();
         cartRepository.getByUserId(userCurrent.getUserId(), new CartReponsitory.OnLinstenerGetCart() {
             @Override

@@ -31,6 +31,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/txtTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -40,7 +41,29 @@
                 android:textAllCaps="true"
                 android:textSize="16dp"
                 android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="Mã đơn:"
+                    android:textColor="@android:color/holo_red_light"/>
+                <TextView
+                    android:id="@+id/txtOrderId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/holo_red_light"
+                    android:layout_marginLeft="8dp"
+                    android:text="322346525"/>
+            </LinearLayout>
+
             <TextView
+                android:id="@+id/txtMessage"
                 android:layout_marginTop="8dp"
                 android:textSize="16dp"
                 android:textColor="@color/black"
@@ -58,6 +81,7 @@
                     android:src="@drawable/baseline_calendar_month_24"
                     app:tint="@android:color/holo_red_dark"/>
                 <TextView
+                    android:id="@+id/txtCreateDate"
                     android:layout_marginLeft="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

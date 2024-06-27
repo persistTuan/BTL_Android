@@ -55,7 +55,7 @@ public class HomeViewModel extends ViewModel {
         top5Product.setValue(top5);
     }
 
-    public void addToCart(View view, int idProduct){
+    public void addToCart(View view, String idProduct){
 
 
         if(cartReponsitory.checkCart(userCurrent.getUserId(), idProduct)){

@@ -36,6 +36,9 @@ public class AccountViewModel extends ViewModel {
         });
     }
 
+    public void signOut(){
+        userReponsitory.clearUserCurrent();
+    }
 
 
 }

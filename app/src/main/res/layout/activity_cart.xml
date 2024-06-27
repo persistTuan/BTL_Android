@@ -88,8 +88,11 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ScrollView
+            android:id="@+id/layoutProductCart"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginVertical="10dp"
+            app:layout_constraintBottom_toTopOf="@id/layoutTotalPrice"
             app:layout_constraintTop_toBottomOf="@id/headerCart">
 
            <androidx.recyclerview.widget.RecyclerView
@@ -106,31 +109,36 @@
             android:id="@+id/layoutTotalPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/txtTotalPrice"
+            <LinearLayout
+                android:id="@+id/layoutPayment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tổng tiền"
-                android:textSize="14sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
-            <TextView
-                android:id="@+id/numberTotalPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="24dp"
-                android:fontFamily="sans-serif"
-                android:text="309,900Đ"
-                app:layout_constraintTop_toBottomOf="@id/txtTotalPrice"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:textColor="@android:color/holo_red_light"/>
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent">
+                <TextView
+                    android:id="@+id/txtTotalPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tổng tiền"
+                    android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/numberTotalPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="24dp"
+                    android:fontFamily="sans-serif"
+                    android:text="309,900Đ"
+                    android:textColor="@android:color/holo_red_light"/>
+            </LinearLayout>
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnNextOrder"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="ĐẶT HÀNG"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/numberTotalPrice"
+                app:layout_constraintLeft_toRightOf="@id/layoutPayment"
                 app:layout_constraintRight_toRightOf="parent"
                 app:cornerRadius="8dp"
                 android:gravity="center"

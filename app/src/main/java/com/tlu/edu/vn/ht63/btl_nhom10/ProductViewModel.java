@@ -40,11 +40,10 @@ public class ProductViewModel extends ViewModel {
         
         String name = productName.getValue();
         String description = productDescription.getValue();
-        Log.i("price", productPrice.getValue().toString());
         float price = Float.parseFloat(productPrice.getValue());
         String category = productCategory.getValue();
         float discount = Float.parseFloat(productDiscount.getValue());
-        int productId = name.hashCode();
+        String productId = name.hashCode() +"";
         if(discount > 100){
             discountError.setValue("Discount must be less than 100");
             return;

@@ -14,6 +14,7 @@ import com.tlu.edu.vn.ht63.btl_nhom10.Model.Notification;
 import com.tlu.edu.vn.ht63.btl_nhom10.Model.Order;
 import com.tlu.edu.vn.ht63.btl_nhom10.Model.OrderDetail;
 import com.tlu.edu.vn.ht63.btl_nhom10.Model.User;
+import com.tlu.edu.vn.ht63.btl_nhom10.Model.UserWithOrderAndProduct;
 import com.tlu.edu.vn.ht63.btl_nhom10.Reponsitory.CartReponsitory;
 import com.tlu.edu.vn.ht63.btl_nhom10.Reponsitory.NotificationReponsitory;
 import com.tlu.edu.vn.ht63.btl_nhom10.Reponsitory.OrderReponsitory;
@@ -33,6 +34,8 @@ public class OrderViewModel extends ViewModel {
     public MutableLiveData<Boolean> progressBar = new MutableLiveData<>(false);
     public MutableLiveData<String> totalPrice = new MutableLiveData<>();
     public MutableLiveData<Boolean> createOrderSuccess = new MutableLiveData<>();
+
+    public MutableLiveData<UserWithOrderAndProduct> userWithOrderAndProduct = new MutableLiveData<>();
     private final String TITLE_NEW_ORDER = "Đơn hàng mới";
     private User userCurrent;
 
@@ -43,8 +46,7 @@ public class OrderViewModel extends ViewModel {
         notificationReponsitory = new NotificationReponsitory(context);
         userCurrent = userReponsitory.getUserCurrent();
         if(userCurrent.getAddress() == null || userCurrent.getAddress().isEmpty()){
-//            noAddress.setValue(true);
-            userCurrent.setAddress("Ngõ 157 pháo đài láng láng thượng đống đa hà nội");
+            noAddress.setValue(true);
         }
     }
 
@@ -52,19 +54,23 @@ public class OrderViewModel extends ViewModel {
         return userReponsitory.getUserCurrent();
     }
     @SuppressLint({"NewApi", "LocalSuppress"})
-    public void createOrder(List<CartAndUserWithProducts> productOnCart){
+    public void createOrder(List<CartAndUserWithProducts> productOnCart, User user){
         progressBar.setValue(true);
         noAddress.setValue(false);
+        if(user.getAddress() == null){
+            noAddress.setValue(true);
+            return;
+        }
 
         Order order = new Order();
-        order.setUserCreatorId(userCurrent.getUserId());
+        order.setUserCreatorId(user.getUserId());
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String formattedDateTime = now.format(formatter);
         order.setCreatedAt(formattedDateTime);
         order.setTotalMoney(Float.parseFloat(totalPrice.getValue()));
         order.setAccepted(false);
-        order.setDeliveryAddress(userCurrent.getAddress());
+        order.setDeliveryAddress(user.getAddress());
 
         int id = (userCurrent.getName() + formattedDateTime).hashCode();
         order.setOrderId(id);
@@ -72,8 +78,6 @@ public class OrderViewModel extends ViewModel {
         orderReponsitory.insert(order, new OrderReponsitory.OnListenerOrder() {
             @Override
             public void OnSuccess(Boolean success) {
-                Log.i("resultInsertOrder", success + "");
-
 
             }
         });
@@ -91,7 +95,7 @@ public class OrderViewModel extends ViewModel {
 
         List<OrderDetail> orderDetails = new ArrayList<>();
         for (CartAndUserWithProducts cart : productOnCart) {
-            orderDetails.add(new OrderDetail(id, cart.getProduct().getProductId(), cart.getCartId()));
+            orderDetails.add(new OrderDetail(id, cart.getProduct().getProductId(), cart.getQuantity()));
         }
 
         cartReponsitory.deleteAllByUserIdAsync(userCurrent.getUserId());
@@ -107,6 +111,20 @@ public class OrderViewModel extends ViewModel {
         createOrderSuccess.setValue(true);
         progressBar.setValue(false);
 
+    }
+
+    public void getOrderDetail(int userId, int orderId){
+        orderReponsitory.getOrderDetail(userId, orderId, new OrderReponsitory.OnListenerOrderDetail() {
+            @Override
+            public void onSuccess(UserWithOrderAndProduct orderDetails) {
+                userWithOrderAndProduct.setValue(orderDetails);
+            }
+
+            @Override
+            public void onFailure(String message) {
+
+            }
+        });
     }
 
 }

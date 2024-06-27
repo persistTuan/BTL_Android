@@ -67,7 +67,7 @@ public class CartReponsitory {
         }
     }
 
-    public boolean checkCart(int userId, int productId){
+    public boolean checkCart(int userId, String productId){
         Cart cart = cartDao.checkExistInCart(userId, productId);
         if(cart == null){
             return false;

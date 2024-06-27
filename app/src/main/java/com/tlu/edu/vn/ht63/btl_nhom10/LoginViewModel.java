@@ -20,6 +20,7 @@ public class LoginViewModel extends ViewModel {
     public MutableLiveData<String> email = new MutableLiveData<>();
     public MutableLiveData<String> password = new MutableLiveData<>();
     public MutableLiveData<Boolean> loginSuccess = new MutableLiveData<>();
+    public MutableLiveData<Boolean> loginWithAdmin = new MutableLiveData<>();
     public User userCurrenr;
 
     public LoginViewModel(Context context){
@@ -34,17 +35,31 @@ public class LoginViewModel extends ViewModel {
         }
         email.setValue(email.getValue().trim());
         password.setValue(password.getValue().trim());
-        if(userReponsitory.authen(email.getValue(), password.getValue()) != null){
-            loginSuccess.setValue(true);
+        User user = userReponsitory.authen(email.getValue(), password.getValue());
+        if(user != null){
+            Log.i("user", user.isAdmin() + "");
+            if(user.isAdmin()){
+                loginWithAdmin.setValue(true);
+            }
+            else{
+                loginSuccess.setValue(true);
+            }
         }
         else{
             loginSuccess.setValue(false);
         }
     }
 
-    public void onLoginStart(Context context) {
-       if( userReponsitory.getUserCurrent() !=null){
-           loginSuccess.setValue(true);
+    public void onLoginStart() {
+        User user = userReponsitory.getUserCurrent();
+       if( user !=null){
+           Log.i("user", user.isAdmin() + "");
+           if(user.isAdmin()){
+               loginWithAdmin.setValue(true);
+           }
+           else{
+               loginSuccess.setValue(true);
+           }
        }
     }
 }

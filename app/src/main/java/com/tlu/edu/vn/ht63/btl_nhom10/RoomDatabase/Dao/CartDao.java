@@ -23,5 +23,5 @@ public interface CartDao {
     @Query("SELECT * FROM carts WHERE userId = :userId")
     List<Cart> getByUserId(int userId);
     @Query("SELECT * FROM carts WHERE userId = :userId AND productId = :productId")
-    Cart checkExistInCart(int userId, int productId);
+    Cart checkExistInCart(int userId, String productId);
 }

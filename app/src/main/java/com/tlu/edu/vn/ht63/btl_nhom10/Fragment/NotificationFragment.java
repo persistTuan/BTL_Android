@@ -2,65 +2,98 @@ package com.tlu.edu.vn.ht63.btl_nhom10.Fragment;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.tlu.edu.vn.ht63.btl_nhom10.Adapter.Admin.ProductOnOrderAdapter;
+import com.tlu.edu.vn.ht63.btl_nhom10.Adapter.NotificationAdapter;
+import com.tlu.edu.vn.ht63.btl_nhom10.Model.Notification;
+import com.tlu.edu.vn.ht63.btl_nhom10.NotificationViewModel;
 import com.tlu.edu.vn.ht63.btl_nhom10.R;
+import com.tlu.edu.vn.ht63.btl_nhom10.databinding.FragmentNotificationBinding;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link NotificationFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.List;
+
+
 public class NotificationFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private FragmentNotificationBinding binding;
+    private NotificationViewModel viewModel;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private NotificationAdapter adapter;
 
     public NotificationFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment NotificationFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+
     public static NotificationFragment newInstance(String param1, String param2) {
         NotificationFragment fragment = new NotificationFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
+
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_notification, container, false);
+
+        binding = FragmentNotificationBinding.inflate(inflater, container, false);
+        viewModel = new ViewModelProvider(requireActivity(), new ViewModelProvider.Factory() {
+            @NonNull
+            @Override
+            public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+                return (T) new NotificationViewModel(getContext());
+            }
+        }).get(NotificationViewModel.class);
+
+        oberserViewModel();
+
+        viewModel.loadNotification();
+
+        actionView();
+        return binding.getRoot();
+    }
+
+    private void actionView() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),
+                LinearLayoutManager.VERTICAL, false);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(),
+                                    layoutManager.getOrientation());
+        binding.rcvNotification.setLayoutManager(layoutManager);
+        binding.rcvNotification.addItemDecoration(dividerItemDecoration);
+        adapter = new NotificationAdapter(getContext(), viewModel.listNotification.getValue());
+        adapter.setViewModel(viewModel);
+        binding.rcvNotification.setAdapter(adapter);
+
+    }
+
+    private void oberserViewModel() {
+        viewModel.listNotification.observe(getViewLifecycleOwner(), new Observer<List<Notification>>() {
+            @Override
+            public void onChanged(List<Notification> notifications) {
+                adapter.setNotifications(notifications);
+            }
+        });
+
+        viewModel.newNotification.observe(getViewLifecycleOwner(), new Observer<Notification>() {
+            @Override
+            public void onChanged(Notification notification) {
+                adapter.addNotification(notification);
+            }
+        });
     }
 }

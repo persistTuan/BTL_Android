@@ -16,6 +16,15 @@ public class User {
     private String createdAt;
 
     private String address;
+    private float distance;
+
+    public float getDistance() {
+        return distance;
+    }
+
+    public void setDistance(float distance) {
+        this.distance = distance;
+    }
 
     public User(){}
 

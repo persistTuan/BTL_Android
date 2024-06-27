@@ -17,6 +17,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.tlu.edu.vn.ht63.btl_nhom10.Activity.Admin.MainAdminActivity;
 import com.tlu.edu.vn.ht63.btl_nhom10.LoginViewModel;
 import com.tlu.edu.vn.ht63.btl_nhom10.R;
 import com.tlu.edu.vn.ht63.btl_nhom10.SignupViewModel;
@@ -51,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
         binding.setLoginViewModel(viewModel);
         binding.setLifecycleOwner(this);
 
-        viewModel.onLoginStart(this);
+        viewModel.onLoginStart();
 
         binding.tvSignup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,10 +61,10 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        login(this);
+        login();
     }
 
-    private void login(Context context) {
+    private void login() {
         viewModel.loginSuccess.observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
@@ -73,7 +74,18 @@ public class LoginActivity extends AppCompatActivity {
                     finish();
                 }
                 else{
-                    Toast.makeText(context, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        viewModel.loginWithAdmin.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if(aBoolean){
+                    Intent intent = new Intent(LoginActivity.this, MainAdminActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
             }
         });

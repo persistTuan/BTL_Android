@@ -13,7 +13,7 @@ import androidx.room.PrimaryKey;
 import java.io.Serializable;
 
 public class Product implements Parcelable {
-    private int productId;
+    private String productId;
     private String productName;
     private String productDescription;
     private float productPrice;
@@ -27,7 +27,7 @@ public class Product implements Parcelable {
     public Product(){}
 
     protected Product(Parcel in) {
-        productId = in.readInt();
+        productId = in.readString();
         productName = in.readString();
         productDescription = in.readString();
         productPrice = in.readFloat();
@@ -49,11 +49,11 @@ public class Product implements Parcelable {
         }
     };
 
-    public int getProductId() {
+    public String getProductId() {
         return productId;
     }
 
-    public void setProductId(int productId) {
+    public void setProductId(String productId) {
         this.productId = productId;
     }
 
@@ -120,7 +120,7 @@ public class Product implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeInt(productId);
+        dest.writeString(productId);
         dest.writeString(productName);
         dest.writeString(productDescription);
         dest.writeFloat(productPrice);
