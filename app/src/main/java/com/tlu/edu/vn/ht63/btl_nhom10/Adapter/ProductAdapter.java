@@ -2,6 +2,7 @@ package com.tlu.edu.vn.ht63.btl_nhom10.Adapter;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.tlu.edu.vn.ht63.btl_nhom10.HomeViewModel;
+import com.tlu.edu.vn.ht63.btl_nhom10.Model.DownloadImage;
 import com.tlu.edu.vn.ht63.btl_nhom10.Model.Product;
 import com.tlu.edu.vn.ht63.btl_nhom10.R;
 import com.tlu.edu.vn.ht63.btl_nhom10.databinding.ItemProductBinding;
@@ -47,6 +51,19 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         Product product = productList.get(position);
         holder.binding.setIdProduct(product.getProductId());
         holder.binding.btnAddCart.setText("Add to cart");
+
+        DownloadImage.loadImage(context, product.getProductImage(),
+                holder.binding.imgProduct, new DownloadImage.LoadCallback() {
+                    @Override
+                    public void onSuccess(String imageUrl) {
+
+                    }
+
+                    @Override
+                    public void onFailure(String error) {
+                        Log.e("ErrorImageFirebase", error);
+                    }
+                });
 
         holder.binding.txtProductDescription.setText(product.getProductDescription());
         float priceCurrent = product.getProductPrice() - (product.getProductPrice() * product.getProductDiscount() / 100);

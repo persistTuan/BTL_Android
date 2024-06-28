@@ -86,7 +86,7 @@ dependencies {
     implementation ("com.squareup.okhttp3:okhttp:4.9.3")
     implementation ("com.github.bumptech.glide:glide:4.16.0")
     // When using the BoM, you don't specify versions in Firebase library dependencies
-    implementation("com.google.firebase:firebase-storage")
+
     implementation("com.google.android.gms:play-services-maps:18.2.0")
 
 //    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
@@ -94,4 +94,11 @@ dependencies {
 
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    //glide
+    implementation ("com.github.bumptech.glide:glide:4.14.2")
+
+    implementation("com.google.firebase:firebase-storage")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.14.2")
+    implementation ("com.firebaseui:firebase-ui-storage:8.0.2")
+
 }
